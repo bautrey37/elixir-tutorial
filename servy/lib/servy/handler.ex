@@ -1,3 +1,5 @@
+require Logger
+
 defmodule Servy.Handler do
   def handle(request) do
     request
@@ -5,15 +7,22 @@ defmodule Servy.Handler do
     |> rewrite_path
     |> log
     |> route
+    |> emojify
     |> track
     |> format_response
   end
 
-  def rewrite_path(%{path: "/wildlife"} = conv) do
-    %{conv | path: "/wildthings"}
+  def rewrite_path(%{path: path} = conv) do
+    regex = ~r{\/(?<thing>\w+)\?id=(?<id>\d+)}
+    captures = Regex.named_captures(regex, path)
+    rewrite_path_captures(conv, captures)
   end
 
-  def rewrite_path(conv), do: conv
+  def rewrite_path_captures(conv, %{"thing" => thing, "id" => id}) do
+    %{conv | path: "/#{thing}/#{id}"}
+  end
+
+  def rewrite_path_captures(conv, nil), do: conv
 
   def log(conv), do: IO.inspect(conv)
 
@@ -45,8 +54,17 @@ defmodule Servy.Handler do
 
   def route(%{path: path} = conv), do: %{conv | status: 404, resp_body: "No #{path} here!"}
 
+  def emojify(%{status: 200} = conv) do
+    emojies = String.duplicate("🎉", 5)
+    body = emojies <> "\n" <> conv.resp_body <> "\n" <> emojies
+
+    %{conv | resp_body: body}
+  end
+
+  def emojify(conv), do: conv
+
   def track(%{status: 404, path: path} = conv) do
-    IO.puts("Warning: #{path} is on the loose!")
+    Logger.warning("#{path} is on the loose!")
     conv
   end
 
@@ -55,7 +73,7 @@ defmodule Servy.Handler do
   def format_response(conv) do
     """
     HTTP/1.1 #{conv.status} #{status_reason(conv.status)}
-    Content-Type: text/html
+    Content-Type: text/htmlgit
     Content-Length: #{String.length(conv.resp_body)}
 
     #{conv.resp_body}
@@ -98,6 +116,17 @@ IO.puts(response)
 
 request = """
 DELETE /bears/1 HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+
+"""
+
+response = Servy.Handler.handle(request)
+IO.puts(response)
+
+request = """
+GET /bears?id=1 HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
