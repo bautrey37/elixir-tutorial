@@ -1,6 +1,11 @@
 require Logger
 
 defmodule Servy.Handler do
+  @moduledoc "Handles HTTP requests"
+
+  @pages_path Path.expand("../../pages", __DIR__)
+
+  @doc "Transforms the request into a response"
   def handle(request) do
     request
     |> parse
@@ -44,21 +49,21 @@ defmodule Servy.Handler do
     do: %{conv | status: 200, resp_body: "Bears, Lions, Tigers"}
 
   def route(%{method: "GET", path: "/about"} = conv) do
-    Path.expand("../../pages", __DIR__)
+    @pages_path
     |> Path.join("about.html")
     |> File.read()
     |> handle_file(conv)
   end
 
   def route(%{method: "GET", path: "/pages/" <> page} = conv) do
-    Path.expand("../../pages", __DIR__)
+    @pages_path
     |> Path.join(page <> ".html")
     |> File.read()
     |> handle_file(conv)
   end
 
   def route(%{method: "GET", path: "/bears/new"} = conv) do
-    Path.expand("../../pages", __DIR__)
+    @pages_path
     |> Path.join("form.html")
     |> File.read()
     |> handle_file(conv)
@@ -109,6 +114,7 @@ defmodule Servy.Handler do
 
   def emojify(conv), do: conv
 
+  @doc "Logs 404 request"
   def track(%{status: 404, path: path} = conv) do
     Logger.warning("#{path} is on the loose!")
     conv
