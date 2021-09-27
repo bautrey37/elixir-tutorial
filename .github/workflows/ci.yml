@@ -23,7 +23,7 @@ jobs:
       - name: Install Mix dependencies
         run: mix deps.get
       - name: Check Formatting
-        run: mix format --check-formatted
+        run: mix format mix.exs "lib/**/*.{ex,exs}" --check-formatted
       - name: Compile dependencies
         run: mix deps.compile -f
       - name: Compile Mix app
