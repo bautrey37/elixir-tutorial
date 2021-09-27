@@ -24,9 +24,31 @@ defmodule Recurse do
     triple_2(tail, [head*3 | list])
   end
   defp triple_2([], list), do: Enum.reverse(list)
+
+
+  def my_map(list, func), do: my_map(list, func, [])
+  defp my_map([head | tail], func, list) do
+    my_map(tail, func, [func.(head) | list])
+  end
+  defp my_map([], _, list), do: Enum.reverse(list)
+
+  def my_map2([head|tail], fun) do
+    [fun.(head) | my_map(tail, fun)]
+  end
+
+  def my_map2([], _fun), do: []
 end
 
 Recurse.loopy([1, 2, 3, 4, 5])
 Recurse.sum([1, 2, 3, 4, 5])
 IO.inspect Recurse.triple([1, 2, 3, 4, 5])
 IO.inspect Recurse.triple_2([1, 2, 3, 4, 5])
+
+nums = [1, 2, 3, 4, 5]
+IO.inspect Recurse.my_map(nums, &(&1 * 2))
+IO.inspect Recurse.my_map(nums, &(&1 * 4))
+IO.inspect Recurse.my_map(nums, &(&1 * 5))
+
+IO.inspect Recurse.my_map2(nums, &(&1 * 2))
+IO.inspect Recurse.my_map2(nums, &(&1 * 4))
+IO.inspect Recurse.my_map2(nums, &(&1 * 5))
