@@ -28,3 +28,5 @@ jobs:
         run: mix deps.compile -f
       - name: Compile Mix app
         run: mix compile -f
+      - name: Run tests
+        run: mix test
