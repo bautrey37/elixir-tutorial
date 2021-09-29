@@ -39,12 +39,25 @@ defmodule Servy.Handler do
     |> handle_file(conv)
   end
 
+  # def route(%Conv{method: "GET", path: "/pages/" <> page} = conv) do
+  #   @pages_path
+  #   |> Path.join(page <> ".html")
+  #   |> File.read()
+  #   |> handle_file(conv)
+  # end
+
   def route(%Conv{method: "GET", path: "/pages/" <> page} = conv) do
     @pages_path
-    |> Path.join(page <> ".html")
+    |> Path.join(page <> ".md")
     |> File.read()
     |> handle_file(conv)
+    |> markdown_to_html
   end
+
+  def markdown_to_html(%Conv{status: 200} = conv) do
+    %{conv | resp_body: Earmark.as_html!(conv.resp_body)}
+  end
+  def markdown_to_html(%Conv{} = conv), do: conv
 
   def route(%Conv{method: "GET", path: "/bears/new"} = conv) do
     @pages_path

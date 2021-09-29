@@ -192,6 +192,19 @@ defmodule HandlerTest do
     assert remove_whitespace(response) == remove_whitespace(expected_response)
   end
 
+  test "GET /pages/faq" do
+    request = """
+    GET /pages/faq HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
+    """
+
+    response = handle(request)
+    assert String.contains?(response, "HTTP/1.1 200 OK")
+  end
+
   test "POST /bears" do
     request = """
     POST /bears HTTP/1.1\r
