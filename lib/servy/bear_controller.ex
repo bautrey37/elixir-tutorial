@@ -16,7 +16,7 @@ defmodule Servy.BearController do
   def show(conv, %{"id" => id}) do
     bear = Wildthings.get_bear(id)
     # Faster method
-    %{ conv | status: 200, resp_body: BearView.show(bear) }
+    %{conv | status: 200, resp_body: BearView.show(bear)}
   end
 
   def create(conv, %{"name" => name, "type" => type}) do
