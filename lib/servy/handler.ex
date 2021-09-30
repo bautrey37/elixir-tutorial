@@ -57,6 +57,7 @@ defmodule Servy.Handler do
   def markdown_to_html(%Conv{status: 200} = conv) do
     %{conv | resp_body: Earmark.as_html!(conv.resp_body)}
   end
+
   def markdown_to_html(%Conv{} = conv), do: conv
 
   def route(%Conv{method: "GET", path: "/bears/new"} = conv) do

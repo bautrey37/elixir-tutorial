@@ -1,6 +1,14 @@
 # Servy
 
-**TODO: Add description**
+## Running
+
+`mix run -e "Servy.HttpServer.start(4000)"`
+
+## API
+
+`curl http://localhost:4000/api/bears`
+
+`curl -H 'Content-Type: application/json' -XPOST http://localhost:4000/api/bears -d '{"name": "Breezly", "type": "Polar"}'`
 
 ## Installation
 
