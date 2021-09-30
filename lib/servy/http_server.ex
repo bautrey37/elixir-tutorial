@@ -45,7 +45,7 @@ defmodule Servy.HttpServer do
   def serve(client_socket) do
     client_socket
     |> read_request
-    |> Servy.Handler.handle
+    |> Servy.Handler.handle()
     |> write_response(client_socket)
   end
 
