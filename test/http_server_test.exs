@@ -18,11 +18,11 @@ defmodule HttpServerTest do
     response = HttpClient.send_request(request)
 
     assert response == """
-    HTTP/1.1 200 OK\r
-    Content-Type: text/html\r
-    Content-Length: 20\r
-    \r
-    Bears, Lions, Tigers
-    """
+           HTTP/1.1 200 OK\r
+           Content-Type: text/html\r
+           Content-Length: 20\r
+           \r
+           Bears, Lions, Tigers
+           """
   end
 end
