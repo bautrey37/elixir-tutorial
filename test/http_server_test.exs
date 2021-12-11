@@ -15,7 +15,7 @@ defmodule HttpServerTest do
     ]
 
     urls
-    |> Enum.map(fn(url) -> Task.async(fn -> HTTPoison.get(url) end) end)
+    |> Enum.map(fn url -> Task.async(fn -> HTTPoison.get(url) end) end)
     |> Enum.map(&Task.await/1)
     |> Enum.map(&assert_successful_response/1)
   end
