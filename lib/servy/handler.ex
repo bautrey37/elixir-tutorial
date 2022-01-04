@@ -6,6 +6,7 @@ defmodule Servy.Handler do
   alias Servy.Conv
   alias Servy.BearController
   alias Servy.VideoCam
+  alias Servy.FourOhFourCounter
 
   @pages_path Path.expand("pages", File.cwd!())
 
@@ -48,6 +49,12 @@ defmodule Servy.Handler do
     conv = %{conv | status: 200, resp_body: inspect({snapshots, where_is_bigfoot})}
 
     render(conv, "sensors.eex", snapshots: snapshots, location: where_is_bigfoot)
+  end
+
+  def route(%Conv{method: "GET", path: "/404s"} = conv) do
+    counts = FourOhFourCounter.get_counts()
+    %{conv | status: 200, resp_body: inspect(counts)}
+    render(conv, "404s.eex", counts: counts)
   end
 
   def route(%Conv{method: "GET", path: "/kaboom"} = conv) do

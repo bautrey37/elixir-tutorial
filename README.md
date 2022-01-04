@@ -2,7 +2,23 @@
 
 ## Running
 
-`mix run -e "Servy.HttpServer.start(4000)"`
+In `iex -S mix`:
+
+```
+Servy.FourOhFourCounter.start()
+Servy.PledgeServer.start()
+Servy.HttpServer.start(4000)
+```
+
+Or with mix:
+
+```
+mix run -e "Servy.FourOhFourCounter.start()"
+mix run -e "Servy.PledgeServer.start()"
+mix run -e "Servy.HttpServer.start(4000)"
+```
+
+Or `mix start`
 
 ## API
 

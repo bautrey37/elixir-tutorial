@@ -2,6 +2,7 @@ require Logger
 
 defmodule Servy.Plugins do
   alias Servy.Conv
+  alias Servy.FourOhFourCounter, as: Counter
 
   def rewrite_path(%Conv{path: path} = conv) do
     regex = ~r{\/(?<thing>\w+)\?id=(?<id>\d+)}
@@ -27,6 +28,7 @@ defmodule Servy.Plugins do
   def track(%Conv{status: 404, path: path} = conv) do
     if Mix.env() != :test do
       Logger.warning("#{path} is on the loose!")
+      Counter.bump_count(path)
     end
 
     conv
