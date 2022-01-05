@@ -6,7 +6,8 @@ defmodule PledgeServerTest do
   alias Servy.PledgeServer
 
   setup_all do
-    [pid: PledgeServer.start()]
+    {:ok, pid} = PledgeServer.start()
+    [pid: pid]
   end
 
   test "caches the 3 most recent pledges and totals their amounts", _state do
@@ -36,5 +37,20 @@ defmodule PledgeServerTest do
     PledgeServer.clear()
 
     assert PledgeServer.recent_pledges() == []
+  end
+
+  test "changes the cache size", _state do
+    PledgeServer.create_pledge("larry", 10)
+    PledgeServer.set_cache_size(4)
+    PledgeServer.create_pledge("moe", 20)
+    PledgeServer.create_pledge("curly", 30)
+    PledgeServer.create_pledge("daisy", 40)
+    PledgeServer.create_pledge("grace", 50)
+
+    most_recent_pledges = [{"grace", 50}, {"daisy", 40}, {"curly", 30}, {"moe", 20}]
+
+    assert PledgeServer.recent_pledges() == most_recent_pledges
+
+    PledgeServer.set_cache_size(3)
   end
 end
