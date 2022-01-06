@@ -4,6 +4,8 @@ defmodule HttpServerTest do
   alias Servy.HttpServer
 
   test "accepts a request on a socket and sends back a response" do
+    Servy.SensorServer.start()
+
     spawn(HttpServer, :start, [4000])
 
     urls = [
@@ -22,6 +24,5 @@ defmodule HttpServerTest do
 
   defp assert_successful_response({:ok, response}) do
     assert response.status_code == 200
-    # assert response.body == "Bears, Lions, Tigers"
   end
 end

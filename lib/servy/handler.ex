@@ -46,7 +46,7 @@ defmodule Servy.Handler do
 
     render(conv, "sensors.eex",
       snapshots: sensor_data.snapshots,
-      location: sensor_data.where_is_bigfoot
+      location: sensor_data.location
     )
   end
 
