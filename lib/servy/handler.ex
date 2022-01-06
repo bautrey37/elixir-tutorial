@@ -56,7 +56,7 @@ defmodule Servy.Handler do
     render(conv, "404s.eex", counts: counts)
   end
 
-  def route(%Conv{method: "GET", path: "/kaboom"} = conv) do
+  def route(%Conv{method: "GET", path: "/kaboom"} = _conv) do
     raise "Kaboom!"
   end
 
@@ -90,12 +90,6 @@ defmodule Servy.Handler do
     |> handle_file(conv)
     |> markdown_to_html
   end
-
-  def markdown_to_html(%Conv{status: 200} = conv) do
-    %{conv | resp_body: Earmark.as_html!(conv.resp_body)}
-  end
-
-  def markdown_to_html(%Conv{} = conv), do: conv
 
   def route(%Conv{method: "GET", path: "/bears/new"} = conv) do
     @pages_path
@@ -156,6 +150,12 @@ defmodule Servy.Handler do
   end
 
   def emojify(%Conv{} = conv), do: conv
+
+  def markdown_to_html(%Conv{status: 200} = conv) do
+    %{conv | resp_body: Earmark.as_html!(conv.resp_body)}
+  end
+
+  def markdown_to_html(%Conv{} = conv), do: conv
 
   def put_content_length(conv) do
     headers = Map.put(conv.resp_headers, "Content-Length", String.length(conv.resp_body))
