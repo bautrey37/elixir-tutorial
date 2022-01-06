@@ -75,7 +75,7 @@ defmodule Servy.PledgeServer do
 
   @impl true
   def handle_info(message, state) do
-    IO.puts "Can't touch this! #{inspect message}"
+    IO.puts("Can't touch this! #{inspect(message)}")
     {:noreply, state}
   end
 
@@ -94,6 +94,6 @@ defmodule Servy.PledgeServer do
     # CODE GOES HERE TO FETCH RECENT PLEDGES FROM EXTERNAL SERVICE
 
     # Example return value:
-    [ {"wilma", 15}, {"fred", 25} ]
+    [{"wilma", 15}, {"fred", 25}]
   end
 end

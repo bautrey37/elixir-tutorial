@@ -30,7 +30,7 @@ defmodule Servy.GenericServer do
 
       other ->
         new_state = callback_module.handle_info(other, state)
-        listen_loop(state, callback_module)
+        listen_loop(new_state, callback_module)
     end
   end
 end
@@ -85,7 +85,7 @@ defmodule Servy.PledgeServerHandRolled do
   end
 
   def handle_info(other, state) do
-    IO.puts "Unexpected messaged: #{inspect other}"
+    IO.puts("Unexpected messaged: #{inspect(other)}")
     state
   end
 
