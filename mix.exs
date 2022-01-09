@@ -30,11 +30,7 @@ defmodule Servy.MixProject do
 
   defp aliases do
     [
-      start: [
-        "run -e \"Servy.FourOhFourCounter.start()\"",
-        "run -e \"Servy.PledgeServer.start()\"",
-        "run -e \"Servy.HttpServer.start(4000)\""
-      ]
+      start: "run -e \"Servy.Supervisor.start_link()\""
     ]
   end
 end

@@ -4,7 +4,7 @@ defmodule HttpServerTest do
   alias Servy.HttpServer
 
   test "accepts a request on a socket and sends back a response" do
-    Servy.SensorServer.start()
+    Servy.SensorServer.start_link(60)
 
     spawn(HttpServer, :start, [4000])
 

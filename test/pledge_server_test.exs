@@ -1,12 +1,10 @@
 defmodule PledgeServerTest do
   use ExUnit.Case
 
-  # import IEx.Helpers
-
   alias Servy.PledgeServer
 
   setup_all do
-    {:ok, pid} = PledgeServer.start()
+    {:ok, pid} = PledgeServer.start_link([])
     PledgeServer.clear()
     [pid: pid]
   end
