@@ -4,6 +4,7 @@ defmodule Servy.MixProject do
   def project do
     [
       app: :servy,
+      description: "A huble HTTP server",
       version: "0.1.0",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
@@ -15,7 +16,9 @@ defmodule Servy.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :eex]
+      extra_applications: [:logger, :eex],
+      mod: {Servy, []},
+      env: [port: 3000]
     ]
   end
 
@@ -29,8 +32,6 @@ defmodule Servy.MixProject do
   end
 
   defp aliases do
-    [
-      start: "run -e \"Servy.Supervisor.start_link()\""
-    ]
+    []
   end
 end

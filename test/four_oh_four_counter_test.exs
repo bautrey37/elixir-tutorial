@@ -4,7 +4,7 @@ defmodule FourOhFourCounterTest do
   alias Servy.FourOhFourCounter, as: Counter
 
   setup_all do
-    [pid: Counter.start()]
+    [pid: Counter.start_link([])]
   end
 
   test "reports counts of missing path requests", _state do

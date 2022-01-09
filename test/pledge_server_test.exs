@@ -4,7 +4,7 @@ defmodule PledgeServerTest do
   alias Servy.PledgeServer
 
   setup_all do
-    {:ok, pid} = PledgeServer.start_link([])
+    pid = Process.whereis(:pledge_server)
     PledgeServer.clear()
     [pid: pid]
   end

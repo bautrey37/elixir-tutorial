@@ -1,19 +1,15 @@
 defmodule HttpServerTest do
   use ExUnit.Case
 
-  alias Servy.HttpServer
-
   test "accepts a request on a socket and sends back a response" do
-    Servy.SensorServer.start_link(60)
-
-    spawn(HttpServer, :start, [4000])
+    port = Application.get_env(:servy, :port)
 
     urls = [
-      "http://localhost:4000/wildthings",
-      "http://localhost:4000/sensors",
-      "http://localhost:4000/bears",
-      "http://localhost:4000/bears/1",
-      "http://localhost:4000/api/bears"
+      "http://localhost:#{port}/wildthings",
+      "http://localhost:#{port}/sensors",
+      "http://localhost:#{port}/bears",
+      "http://localhost:#{port}/bears/1",
+      "http://localhost:#{port}/api/bears"
     ]
 
     urls
